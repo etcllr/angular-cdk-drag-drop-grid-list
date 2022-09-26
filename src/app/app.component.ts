@@ -40,8 +40,8 @@ export class AppComponent implements OnInit {
     this.currentNbRows =
       nbElement > nbCols * (nbCols - 1) ? nbCols : nbCols - 1;
     console.log(this.currentNbRows, nbCols);
-    this.buttonWidth = window.innerWidth / nbCols;
-    this.buttonHeight = window.innerHeight / this.currentNbRows;
+    this.buttonWidth = window.innerWidth / nbCols - 50;
+    this.buttonHeight = window.innerHeight / this.currentNbRows - 30;
   }
 
   resizeGridElements() {
@@ -50,14 +50,14 @@ export class AppComponent implements OnInit {
       Math.sqrt(nbElement) % 1 === 0
         ? Math.sqrt(nbElement)
         : (Math.sqrt(nbElement) | 0) + 1;
-    this.buttonWidth = window.innerWidth / nbCols;
+    this.buttonWidth = window.innerWidth / nbCols - 50;
     const nbRows =
       nbCols * this.currentNbRows < nbElement
         ? this.currentNbRows + 1
         : this.currentNbRows;
     if (nbRows !== this.currentNbRows) {
       this.currentNbRows = nbRows;
-      this.buttonHeight = window.innerHeight / nbRows;
+      this.buttonHeight = window.innerHeight / nbRows - 30;
     }
   }
 
