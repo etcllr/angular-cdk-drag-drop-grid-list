@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { OnInit, Component, ElementRef, ViewChild } from '@angular/core';
 import {
   CdkDragDrop,
   CdkDragEnter,
