@@ -5,6 +5,7 @@
     [cdkDropListData]="i"
   >
     <div
+      [ngStyle]="{ height: buttonHeight + 'px', width: buttonWidth + 'px' }"
       cdkDrag
       [cdkDragData]="i"
       (cdkDragEntered)="dragEntered($event)"
@@ -15,5 +16,11 @@
       {{ item }}
     </div>
   </div>
-  <div (click)="add()" class="example-box">+</div>
+  <div
+    [ngStyle]="{ height: buttonHeight + 'px', width: buttonWidth + 'px' }"
+    (click)="add()"
+    class="example-box"
+  >
+    +
+  </div>
 </div>
