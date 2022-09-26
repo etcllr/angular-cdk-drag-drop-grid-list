@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { OnInit, Component, ElementRef, ViewChild } from '@angular/core';
 import {
   CdkDragDrop,
   CdkDragEnter,
@@ -11,9 +11,12 @@ import {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChild('dropListContainer') dropListContainer?: ElementRef;
 
+  public buttonHeight: number;
+  public buttonWidth: number;
+  public currentNbRows: number;
   public items: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   dropListReceiverElement?: HTMLElement;
@@ -22,14 +25,45 @@ export class AppComponent {
     dropIndex: number;
   };
 
-  add() {
-    this.items.push(this.items.length + 1);
+  ngOnInit() {
+    this.getCurrentNbCols();
+    this.resizeGridElements();
   }
 
-  shuffle() {
-    this.items.sort(function () {
-      return 0.5 - Math.random();
-    });
+  getCurrentNbCols() {
+    const nbElement = this.items.length;
+    const nbCols =
+      Math.sqrt(nbElement) % 1 === 0
+        ? Math.sqrt(nbElement)
+        : (Math.sqrt(nbElement) | 0) + 1;
+    console.log(nbCols);
+    this.currentNbRows =
+      nbElement > nbCols * (nbCols - 1) ? nbCols : nbCols - 1;
+    console.log(this.currentNbRows, nbCols);
+    this.buttonWidth = window.innerWidth / nbCols - 50;
+    this.buttonHeight = window.innerHeight / this.currentNbRows - 30;
+  }
+
+  resizeGridElements() {
+    const nbElement = this.items.length + 1;
+    const nbCols =
+      Math.sqrt(nbElement) % 1 === 0
+        ? Math.sqrt(nbElement)
+        : (Math.sqrt(nbElement) | 0) + 1;
+    this.buttonWidth = window.innerWidth / nbCols - 50;
+    const nbRows =
+      nbCols * this.currentNbRows < nbElement
+        ? this.currentNbRows + 1
+        : this.currentNbRows;
+    if (nbRows !== this.currentNbRows) {
+      this.currentNbRows = nbRows;
+      this.buttonHeight = window.innerHeight / nbRows - 30;
+    }
+  }
+
+  add() {
+    this.items.push(this.items.length + 1);
+    this.resizeGridElements();
   }
 
   dragEntered(event: CdkDragEnter<number>) {
